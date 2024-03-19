@@ -1,1 +1,1 @@
-# Monitoring-System-for-Elderly-Peoplel
+# Monitoring-System-for-Elderly-People
