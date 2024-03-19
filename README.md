@@ -36,7 +36,7 @@ El proyecto está estructurado de la siguiente manera:
 3. Ejecuta el sistema:
 
     ```bash
-    python src/main.py
+    python app.py
     ```
 
 4. Accede a la interfaz web desde tu navegador: [http://localhost:8000](http://localhost:8000)
@@ -53,7 +53,7 @@ Si deseas contribuir a este proyecto, sigue estos pasos:
 
 ## Créditos
 
-Este proyecto fue desarrollado por [Tu Nombre](https://github.com/tu_usuario).
+Este proyecto fue desarrollado por [Maria Camila Gomez y Jesús Quiroz ](https://github.com/JesusCK).
 
 ## Licencia
 
