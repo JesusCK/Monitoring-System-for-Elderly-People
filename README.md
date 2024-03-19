@@ -16,8 +16,7 @@ El proyecto está estructurado de la siguiente manera:
 - **DATASET/**: Contiene el conjunto de datos NTU RGB + D
 - **DATA/**: Contiene los archivos generados durante el preprocesamiento.
 - **TrainedModels/**: Contiene el modelo de deep learning utilizado para la predicción de acciones.
-- **src/**: Contiene  la implementación de la interfaz web.
-- **Templates/**: Documentación del proyecto, incluyendo este archivo README.md.
+- **templates/**: Contiene  la implementación de la interfaz web.
 - **requirements.txt**: Archivo de requerimientos con las dependencias del proyecto.
 
 ## Instalación y Uso
