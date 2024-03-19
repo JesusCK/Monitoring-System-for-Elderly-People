@@ -56,6 +56,4 @@ Si deseas contribuir a este proyecto, sigue estos pasos:
 
 Este proyecto fue desarrollado por [Maria Camila Gomez y Jesús Quiroz ](https://github.com/JesusCK).
 
-## Licencia
 
-Este proyecto está bajo la licencia [MIT](LICENSE).
