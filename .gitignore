@@ -1,0 +1,9 @@
+# Ignorar la carpeta "node_modules" y sus contenidos
+DATA/
+DATA2/
+DATASET/
+__pychae__/
+
+
+# Ignorar un archivo específico
+archivo-a-ignorar.txt
