@@ -25,7 +25,7 @@ El proyecto está estructurado de la siguiente manera:
 1. Clona este repositorio:
 
     ```bash
-    git clone https://github.com/tu_usuario/sistema-monitoreo-adultos-mayores.git
+    git clone https://github.com/JesusCK/Monitoring-System-for-Elderly-People.git
     ```
 
 2. Instala las dependencias del proyecto:
