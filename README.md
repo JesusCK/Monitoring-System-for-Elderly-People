@@ -42,6 +42,12 @@ El proyecto está estructurado de la siguiente manera:
 
 4. Accede a la interfaz web desde tu navegador: [http://localhost:8000](http://localhost:8000)
 
+5. Acceso a Google Colab
+
+Puedes acceder a una versión interactiva del proyecto en Google Colab haciendo clic en el siguiente enlace:
+
+[![Google Colab](https://colab.research.google.com/drive/1lnLDkegFffftfbCZJW0GeD62ZQaM6aSv?usp=sharing)](https://colab.research.google.com/drive/1lnLDkegFffftfbCZJW0GeD62ZQaM6aSv?usp=sharing)
+
 ## Contribución
 
 Si deseas contribuir a este proyecto, sigue estos pasos:
