@@ -17,8 +17,8 @@ class mediapipe_pose:
         return image, results
     def draw_styled_landmarks(self,image, results):
         self.mp_drawing.draw_landmarks(image, results.pose_landmarks, self.mp_holistic.POSE_CONNECTIONS,
-                                 self.mp_drawing.DrawingSpec(color=(112,112,112), thickness=2, circle_radius=1), 
-                                 self.mp_drawing.DrawingSpec(color=(94,200,0), thickness=2, circle_radius=1)
+                                 self.mp_drawing.DrawingSpec(color=(0,0,0), thickness=2, circle_radius=3), 
+                                 self.mp_drawing.DrawingSpec(color=(255,255,255), thickness=4, circle_radius=3)
                                  ) 
     def extract_keypoints(self,results):
         pose = np.array([[res.x, res.y, res.z, res.visibility] for res in results.pose_landmarks.landmark]).flatten() if results.pose_landmarks else np.zeros(33*4)
