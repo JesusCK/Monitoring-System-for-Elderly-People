@@ -46,8 +46,13 @@ class AppCamera:
 
         
 
-        self.canvas = customtkinter.CTkCanvas(window, width=800, height=600)
+        self.canvas = customtkinter.CTkCanvas(window, width=800, height=600, bg="#242424", highlightthickness=0)
         self.canvas.pack()
+        self.ImBg = cv2.imread('Fondo (2).png')
+        self.ImBg = cv2.resize(self.ImBg, (600, 600))
+        self.Img = ImageTk.PhotoImage(image=Image.fromarray(cv2.cvtColor(self.ImBg, cv2.COLOR_BGR2RGB)))
+        self.canvas.create_image(100, 0, image=self.Img, anchor="nw")
+        
 
         self.label = customtkinter.CTkLabel(window, fg_color="transparent", text='Acciones: ')
         self.label.pack()
@@ -87,6 +92,9 @@ class AppCamera:
             self.button_visual.configure(text="Visual off")
         else:
             self.button_visual.configure(text="Visual on")
+            self.canvas.create_image(100, 0, image=self.Img, anchor="nw")
+            self.canvas.image = self.Img  # Store a reference to the image to prevent it from being garbage collected
+            self.canvas.configure(bg="#242424")
 
     def camera(self):
         def processing():
@@ -127,7 +135,11 @@ class AppCamera:
                         self.sentence = self.sentence[-1:]
                 text = ' '.join(self.sentence)
                 self.label.configure(text=text)
-                if self.Visual:
+                if not self.Visual:
+                    self.canvas.delete("all")
+                    self.canvas.create_image(100, 0, image=self.Img, anchor="nw")
+                    self.canvas.image = self.Img
+                else:
                     frame = cv2.putText(frameVisual, text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
                     photo = ImageTk.PhotoImage(image=Image.fromarray(cv2.cvtColor(frameVisual, cv2.COLOR_BGR2RGB)))
                     self.canvas.create_image(0, 0, image=photo, anchor=customtkinter.NW)
