@@ -186,5 +186,6 @@ if __name__ == "__main__":
     customtkinter.set_appearance_mode("dark")  # Modes: system (default), light, dark
     customtkinter.set_default_color_theme("blue")
     root = customtkinter.CTk()
-    root.geometry("960x800")
-    app = AppCamera(root, "Camera App")
+    root.geometry("1106x706")
+    root.resizable(False, False)
+    app = AppCamera(root, "SeniorSafe")
