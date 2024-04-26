@@ -119,7 +119,7 @@ class AppCamera:
                     res = self.new_model.predict(np.expand_dims(self.sequence, axis=0))[0]
                     if res[np.argmax(res)] > self.threshold:
                         action = self.actions[np.argmax(res)]
-                        if action != self.prev_action:
+                        if action != self.prev_action and action != 'Normal':
                             self.prev_action = action
                             Thread(target=self.sendAction, args=(action,), daemon=True).start()
                         if action == 'Alerta de Caida':

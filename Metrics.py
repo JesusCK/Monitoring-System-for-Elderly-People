@@ -106,8 +106,6 @@ def metrics_plot(test, pred, actions):
 
 if __name__=="__main__":
     actions = np.array(['Alerta de Caida',
-                            'Normal',
-                            'Normal',
                             'Sentandose',
                             'Levantandose',
                             'Sentado',
@@ -116,6 +114,10 @@ if __name__=="__main__":
     model = LoadModel()
     y_pred = model.predict(X_test)
     y_pred_binary = thereshold_vector(y_pred, 0.5)
+    # Remove the 1st and 2nd components from each component of y_pred_binary and y_test
+    y_pred_binary = np.delete(y_pred_binary, [1, 2], axis=1)
+    y_test = np.delete(y_test, [1, 2], axis=1)
+    print(y_pred_binary, y_test)
     pred, test = TensorToVector(y_pred_binary, y_test)
     print(pred, test)
     metric = classification_report(test, pred, target_names=actions)
