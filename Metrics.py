@@ -74,53 +74,36 @@ def ConfusionMatrix(pred, test, actions):
 
     # Mostrar la matriz de confusión
     plt.show()
-def Recall(test,pred,actions):
-   # Calcular el recall para cada clase
+def metrics_plot(test, pred, actions):
+    # Calculate the recall, F1 score and precision for each class
     recall_scores = recall_score(test, pred, average=None)
+    f1_scores = f1_score(test, pred, average=None)
+    precision_scores = metrics.precision_score(test, pred, average=None)
 
-    # Etiquetas de las clases
-    labels = ['Clase 0', 'Clase 1']
+    # Create the figure and axis
+    plt.figure(figsize=(10, 6))
 
-    # Crear la figura y el eje
-    plt.figure(figsize=(8, 6))
+    # Plot the recall, F1 score and precision scores
+    barWidth = 0.25
+    r1 = np.arange(len(actions))
+    r2 = [x + barWidth for x in r1]
+    r3 = [x + barWidth for x in r2]
 
-    # Graficar los valores de recall
-    plt.bar(actions, recall_scores, color=['blue', 'green'])
+    plt.bar(r1, recall_scores, color='blue', width=barWidth, edgecolor='grey', label='Recall')
+    plt.bar(r2, f1_scores, color='green', width=barWidth, edgecolor='grey', label='F1 Score')
+    plt.bar(r3, precision_scores, color='red', width=barWidth, edgecolor='grey', label='Precision')
 
-    plt.xticks(fontsize=8)  # Tamaño de letra de las etiquetas del eje x
-    plt.yticks(fontsize=8)
-    # Añadir etiquetas y título
-    plt.xlabel('Clase')
-    plt.ylabel('Recall')
-    plt.title('Recall por Clase')
+    # Add xticks on the middle of the group bars
+    plt.xlabel('Class', fontweight='bold')
+    plt.xticks([r + barWidth for r in range(len(recall_scores))], actions)
 
-    # Mostrar la gráfica
+    # Add labels and title
+    plt.ylabel('Score')
+    plt.title('Recall, F1 Score and Precision per Class')
+
+    # Create legend & Show graphic
+    plt.legend()
     plt.show()
-
-def F1Score(test, pred, actions):
-    # Calculate the F1 score for each class
-     f1_scores = f1_score(test, pred, average=None)
-
-     # Class labels
-     labels = ['Class 0', 'Class 1']
-
-     # Create the figure and axis
-     plt.figure(figsize=(8, 6))
-
-     # Plot the F1 scores
-     plt.bar(actions, f1_scores, color=['blue', 'green'])
-
-     plt.xticks(fontsize=8)  # Font size of the x-axis labels
-     plt.yticks(fontsize=8)
-     # Add labels and title
-     plt.xlabel('Class')
-     plt.ylabel('F1 Score')
-     plt.title('F1 Score per Class')
-
-     # Show the plot
-     plt.show()
-
-
 
 if __name__=="__main__":
     actions = np.array(['Alerta de Caida',
@@ -140,8 +123,7 @@ if __name__=="__main__":
     print(metric)
     classifier= estimator(model, actions)
     ConfusionMatrix(pred, test, actions)
-    Recall(test,pred,actions)
-    F1Score(test, pred, actions)
+    metrics_plot(test, pred, actions)
 
     
 
