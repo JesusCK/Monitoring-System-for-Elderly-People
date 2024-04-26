@@ -91,10 +91,7 @@ class AppCamera:
     def camera(self):
         def processing():
             ip_camera =  self.tetxbox.get(index1=1.0, index2=customtkinter.END).strip()
-            if ip_camera == "0":
-                cap = cv2.VideoCapture(0)
-            else:
-                cap = cv2.VideoCapture(f"{ip_camera}")
+            cap = cv2.VideoCapture(0) if ip_camera == "0" else cv2.VideoCapture(f"{ip_camera}")
             while cap.isOpened():
                 ret, frameVisual = cap.read()
                 frameVisual = cv2.resize(frameVisual,(800,600))
@@ -104,13 +101,12 @@ class AppCamera:
                 try:
                     frame, results = self.pose.mediapipe_detection(frame, self.pt)
                 except:
-                    pass
+                    continue
                 if self.draw:
                     self.pose.draw_styled_landmarks(frameVisual, results)
                 keypoints = self.pose.extract_keypoints(results)
                 self.sequence.append(keypoints)
-                if len(self.sequence) > 30:
-                    self.sequence = self.sequence[-30:]
+                self.sequence = self.sequence[-30:]
                 if len(self.sequence) == 30:
                     res = self.new_model.predict(np.expand_dims(self.sequence, axis=0))[0]
                     if res[np.argmax(res)] > self.threshold:
@@ -118,22 +114,16 @@ class AppCamera:
                         if action != self.prev_action:
                             self.prev_action = action
                             Thread(target=self.sendAction, args=(action,), daemon=True).start()
-                        
                         if action == 'Alerta de Caida':
                             frameV = cv2.cvtColor(frameVisual, cv2.COLOR_BGR2RGB) 
                             self.GIF.append(frameV)
-                        else:
-                            if len(self.GIF) > 0:
-                                imageio.mimwrite('Caida2.gif', self.GIF, 'GIF')
-                                print('GIF guardado')
-                                self.GIF = []
-                                Thread(target=self.sendAlert, daemon=True).start()
-                                
-                            else:
-                                pass
+                        elif len(self.GIF) > 0:
+                            imageio.mimwrite('Caida2.gif', self.GIF, 'GIF')
+                            print('GIF guardado')
+                            self.GIF = []
+                            Thread(target=self.sendAlert, daemon=True).start()
                         if len(self.sentence) == 0 or action != self.sentence[-1]:
                             self.sentence.append(action)
-                    if len(self.sentence) > 1:
                         self.sentence = self.sentence[-1:]
                 text = ' '.join(self.sentence)
                 self.label.configure(text=text)
