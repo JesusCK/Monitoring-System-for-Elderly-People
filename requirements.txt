@@ -5,3 +5,6 @@ scikit-learn
 tensorflow
 flask
 flask-socketio
+pydot
+matplotlib
+
