@@ -1,7 +1,6 @@
 from sklearn import metrics
 import tensorflow as tf
 import numpy as np
-from tensorflow.keras.utils import plot_model
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 import matplotlib.pyplot as plt
