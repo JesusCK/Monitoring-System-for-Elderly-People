@@ -10,6 +10,7 @@ from queue import Queue
 import time
 import imageio
 import requests
+import webbrowser
 
 class AppCamera:
     threshold = 0.5
@@ -47,30 +48,37 @@ class AppCamera:
         
 
         self.canvas = customtkinter.CTkCanvas(window, width=800, height=600, bg="#242424", highlightthickness=0)
-        self.canvas.pack()
+        self.canvas.pack(side="left")
         self.ImBg = cv2.imread('Fondo (2).png')
         self.ImBg = cv2.resize(self.ImBg, (600, 600))
         self.Img = ImageTk.PhotoImage(image=Image.fromarray(cv2.cvtColor(self.ImBg, cv2.COLOR_BGR2RGB)))
         self.canvas.create_image(100, 0, image=self.Img, anchor="nw")
         
 
+        self.labeltext = customtkinter.CTkLabel(window, text="IP Camera link (http:/..): ")
+        self.labeltext.pack(pady=20)
+
+
+        self.tetxbox = customtkinter.CTkTextbox(window, height=10)
+        self.tetxbox.pack(pady=10)
+
         self.label = customtkinter.CTkLabel(window, fg_color="transparent", text='Acciones: ')
-        self.label.pack()
+        self.label.pack(pady=40)
 
         self.button = customtkinter.CTkButton(window, text="Start", command=self.camera)
-        self.button.pack()
+        self.button.pack(pady=10)
 
         self.button_draw = customtkinter.CTkButton(window, text="Drawing on", command=self.drawing)
         self.button_draw.pack(pady=10)
 
         self.button_visual = customtkinter.CTkButton(window, text="Visual on", command=self.VisualB)
         self.button_visual.pack(pady=10)
-        
-        self.labeltext = customtkinter.CTkLabel(window, text="IP Camera link (http:/..): ")
-        self.labeltext.place(x=130, y=620)
 
-        self.tetxbox = customtkinter.CTkTextbox(window, height=10)
-        self.tetxbox.place(x=130, y=650)
+        self.web_button = customtkinter.CTkButton(window, text="Go to Webpage", command=self.open_webpage)
+        self.web_button.pack(pady=10)
+        
+        
+        
 
         self.sequence = []
         self.sentence = []
@@ -85,6 +93,8 @@ class AppCamera:
             self.button_draw.configure(text="Drawing off")
         else:
             self.button_draw.configure(text="Drawing on")
+    def open_webpage(self):
+        webbrowser.open('http://'+self.REMOTE_HOST+':'+str(self.REMOTE_PORT))
 
     def VisualB(self):
         self.Visual = not(self.Visual)
