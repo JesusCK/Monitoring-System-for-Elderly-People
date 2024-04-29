@@ -23,7 +23,7 @@ class AppCamera:
                         'Caminando'])
     REMOTE_HOST = '3.133.157.169'
 # Puerto en el que se ejecuta el servidor Flask
-    REMOTE_PORT = 5000
+    REMOTE_PORT = 80
     # URL para la recepción de datos en el servidor Flask
     RECEIVE_URL = f"http://{REMOTE_HOST}:{REMOTE_PORT}/receive_data"
 
