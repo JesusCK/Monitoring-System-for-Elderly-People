@@ -110,6 +110,7 @@ class AppCamera:
         def processing():
             ip_camera =  self.tetxbox.get(index1=1.0, index2=customtkinter.END).strip()
             cap = cv2.VideoCapture(0) if ip_camera == "0" else cv2.VideoCapture(f"{ip_camera}")
+            alert_detected = False
             while cap.isOpened():
                 ret, frameVisual = cap.read()
                 frameVisual = cv2.resize(frameVisual,(800,600))
@@ -132,11 +133,14 @@ class AppCamera:
                         if action != self.prev_action and action != 'Normal':
                             self.prev_action = action
                             Thread(target=self.sendAction, args=(action,), daemon=True).start()
-                        if action == 'Alerta de Caida':
                             Thread(target=self.saveFrame, args=(frameVisual,), daemon=True).start()
-                        elif len(self.GIF) > 0:
+                        if action == 'Alerta de Caida' and not alert_detected:
+                            alert_detected = True
                             Thread(target=self.createGIF, daemon=True).start()
                             Thread(target=self.sendAlert, daemon=True).start()
+                        else:
+                            alert_detected = False
+                            
                         if len(self.sentence) == 0 or action != self.sentence[-1]:
                             self.sentence.append(action)
                         self.sentence = self.sentence[-1:]
@@ -158,11 +162,13 @@ class AppCamera:
     def saveFrame(self, frame):
         frameV = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) 
         self.GIF.append(frameV)
+        if len(self.GIF) > 40:
+            self.GIF = self.GIF[-40:]
 
     def createGIF(self):
         imageio.mimwrite('Caida2.gif', self.GIF, 'GIF')
         print('GIF guardado')
-        self.GIF = []
+        
 
     def sendAlert(self):
             try:
