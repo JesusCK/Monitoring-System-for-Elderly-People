@@ -133,12 +133,9 @@ class AppCamera:
                             self.prev_action = action
                             Thread(target=self.sendAction, args=(action,), daemon=True).start()
                         if action == 'Alerta de Caida':
-                            frameV = cv2.cvtColor(frameVisual, cv2.COLOR_BGR2RGB) 
-                            self.GIF.append(frameV)
+                            Thread(target=self.saveFrame, args=(frameVisual,), daemon=True).start()
                         elif len(self.GIF) > 0:
-                            imageio.mimwrite('Caida2.gif', self.GIF, 'GIF')
-                            print('GIF guardado')
-                            self.GIF = []
+                            Thread(target=self.createGIF, daemon=True).start()
                             Thread(target=self.sendAlert, daemon=True).start()
                         if len(self.sentence) == 0 or action != self.sentence[-1]:
                             self.sentence.append(action)
@@ -156,7 +153,17 @@ class AppCamera:
                     self.canvas.image = photo  # Store a reference to the image to prevent it from being garbage collected
                 
         Thread(target=processing, daemon=True).start()
-        #Thread(target=GenerateGIF,daemon=True).start()
+
+
+    def saveFrame(self, frame):
+        frameV = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) 
+        self.GIF.append(frameV)
+
+    def createGIF(self):
+        imageio.mimwrite('Caida2.gif', self.GIF, 'GIF')
+        print('GIF guardado')
+        self.GIF = []
+
     def sendAlert(self):
             try:
                 response = requests.post(self.RECEIVE_URL, files={'file': open('Caida2.gif', 'rb')})
