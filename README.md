@@ -1,4 +1,4 @@
-# Sistema de Monitoreo para el Cuidado de Adultos Mayores
+9# Sistema de Monitoreo para el Cuidado de Adultos Mayores
 
 Este proyecto consiste en un sistema de monitoreo diseñado para el cuidado de adultos mayores. Utiliza la biblioteca Mediapipe de Python para extraer keypoints mediante estimación de pose a partir de videos del conjunto de datos NTU RGB + D. Estos keypoints se utilizan para predecir acciones humanas, lo que permite detectar situaciones de riesgo como caídas. En caso de una experiencia negativa, como una caída, el sistema envía una alerta a una página web donde el usuario o cuidador puede monitorear la situación.
 
@@ -40,7 +40,7 @@ El proyecto está estructurado de la siguiente manera:
     python app.py
     ```
 
-4. Accede a la interfaz web desde tu navegador: [http://localhost:8000](http://localhost:8000)
+4. Accede a la interfaz web desde tu navegador: [http://seniorsafe.ddns.net](http://seniorsafe.ddns.net)
 
 5. Acceso a Google Colab
 
