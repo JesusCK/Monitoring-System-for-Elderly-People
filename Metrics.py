@@ -25,10 +25,10 @@ class estimator:
   
 
 def loadData():
-    X = np.load('Keypoints/X5.npy')
-    y = np.load('Keypoints/y5.npy')
+    X = np.load('X_metrics.npy')
+    y = np.load('y_metrics.npy')
 
-    X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2,random_state=41)
+    X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.9,random_state=41)
     return X_test, y_test
 
 
@@ -37,7 +37,7 @@ def thereshold_vector(vector, threshold):
 
 
 def LoadModel():
-    model =  tf.keras.models.load_model('TrainedModel/ModeloBacano6.h5')
+    model =  tf.keras.models.load_model('TrainedModel/ModeloTest.h5')
     model.summary()
     return model
 
@@ -106,10 +106,10 @@ def metrics_plot(test, pred, actions):
 
 if __name__=="__main__":
     actions = np.array(['Alerta de Caida',
-                            'Sentandose',
-                            'Levantandose',
-                            'Sentado',
-                            'Caminando'])
+                        'Sentandose',
+                        'Levantandose',
+                        'Sentado',
+                        'Caminando'])
     X_test, y_test = loadData()
     model = LoadModel()
     y_pred = model.predict(X_test)
