@@ -139,7 +139,7 @@ class AppCamera:
                         if action == 'Alerta de Caida' and not alert_detected:
                             alert_detected = True
                             Thread(target=self.createGIF, daemon=True).start()
-                            Thread(target=self.sendAlert, daemon=True).start()
+                            
                         else:
                             alert_detected = False
                             
@@ -168,8 +168,9 @@ class AppCamera:
             self.GIF = self.GIF[-30:]
 
     def createGIF(self):
-        imageio.mimwrite('Caida2.gif', self.GIF, 'GIF', duration=2) 
+        imageio.mimwrite('Caida2.gif', self.GIF, 'GIF', duration=2, fps=30) 
         print('GIF guardado')
+        Thread(target=self.sendAlert, daemon=True).start()
         
 
     def sendAlert(self):
