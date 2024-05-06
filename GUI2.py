@@ -171,7 +171,7 @@ class AppCamera:
             self.GIF = self.GIF[-30:]
 
     def createGIF(self):
-        imageio.mimwrite('Caida2.gif', self.GIF, 'GIF', duration=1, fps=10) 
+        imageio.mimwrite('Caida2.gif', self.GIF, 'GIF', duration=1, fps=7) 
         print('GIF guardado')
         Thread(target=self.sendAlert, daemon=True).start()
         
