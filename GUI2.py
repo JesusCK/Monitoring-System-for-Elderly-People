@@ -132,10 +132,13 @@ class AppCamera:
                     res = self.new_model.predict(np.expand_dims(self.sequence, axis=0))[0]
                     if res[np.argmax(res)] > self.threshold:
                         action = self.actions[np.argmax(res)]
+                        frameV = cv2.cvtColor(frameVisual, cv2.COLOR_BGR2RGB) 
+                        self.GIF.append(frameV)
+                        if len(self.GIF) >= 30:
+                            self.GIF = self.GIF[-30:]
                         if action != self.prev_action and action != 'Normal':
                             self.prev_action = action
                             Thread(target=self.sendAction, args=(action,), daemon=True).start()
-                            Thread(target=self.saveFrame, args=(frameVisual,), daemon=True).start()
                         if action == 'Alerta de Caida' and not alert_detected:
                             alert_detected = True
                             Thread(target=self.createGIF, daemon=True).start()
@@ -164,11 +167,11 @@ class AppCamera:
     def saveFrame(self, frame):
         frameV = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) 
         self.GIF.append(frameV)
-        if len(self.GIF) > 30:
+        if len(self.GIF) >= 30:
             self.GIF = self.GIF[-30:]
 
     def createGIF(self):
-        imageio.mimwrite('Caida2.gif', self.GIF, 'GIF', duration=1, fps=30) 
+        imageio.mimwrite('Caida2.gif', self.GIF, 'GIF', duration=1, fps=10) 
         print('GIF guardado')
         Thread(target=self.sendAlert, daemon=True).start()
         
