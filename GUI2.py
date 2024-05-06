@@ -162,11 +162,11 @@ class AppCamera:
     def saveFrame(self, frame):
         frameV = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) 
         self.GIF.append(frameV)
-        if len(self.GIF) > 40:
-            self.GIF = self.GIF[-40:]
+        if len(self.GIF) > 30:
+            self.GIF = self.GIF[-30:]
 
     def createGIF(self):
-        imageio.mimwrite('Caida2.gif', self.GIF, 'GIF')
+        imageio.mimwrite('Caida2.gif', self.GIF, 'GIF', duration=2) 
         print('GIF guardado')
         
 
