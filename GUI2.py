@@ -27,6 +27,8 @@ class AppCamera:
     # URL para la recepción de datos en el servidor Flask
     RECEIVE_URL = f"http://{REMOTE_HOST}:{REMOTE_PORT}/receive_data"
 
+    RECEIVE_GIF_URL = f"http://{REMOTE_HOST}:{REMOTE_PORT}/upload"
+
     def __init__(self, window, window_title):
         self.window = window
         self.window.title(window_title)
@@ -172,7 +174,7 @@ class AppCamera:
 
     def sendAlert(self):
             try:
-                response = requests.post(self.RECEIVE_URL, files={'file': open('Caida2.gif', 'rb')})
+                response = requests.post(self.RECEIVE_GIF_URL, files={'file': open('Caida2.gif', 'rb')})
                 if response.status_code == 200:
                     print("Alerta enviada correctamente al servidor.")
                 else:
