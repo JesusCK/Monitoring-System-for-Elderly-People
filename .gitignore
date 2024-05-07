@@ -2,7 +2,7 @@
 DATA/
 DATA2/
 DATASET/
-__pychae__/
+__pycache__/
 
 
 # Ignorar un archivo específico
