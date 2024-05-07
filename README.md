@@ -42,8 +42,9 @@ El proyecto está estructurado de la siguiente manera:
     ```
 
 4. Accede a la interfaz web desde tu navegador: [http://seniorsafe.ddns.net](http://seniorsafe.ddns.net)
+   [Pagina](img/page.jpeg)
 
-5. Acceso a Google Colab
+6. Acceso a Google Colab
 
 Puedes acceder a una versión interactiva del proyecto en Google Colab haciendo clic en el siguiente enlace:
 
