@@ -11,6 +11,10 @@ Este proyecto consiste en un sistema de monitoreo diseñado para el cuidado de a
 - Alertas en tiempo real en caso de experiencias negativas, como caídas.
 - Interfaz web para monitorear las alertas y la situación del usuario.
 
+## Resultados del Modelo
+![Grafica1](Metrics/Confusion_matrix.png)
+![Grafica2](Metrics/F1_score_Recall_Precision.png)
+
 ## Estructura del Proyecto
 
 El proyecto está estructurado de la siguiente manera:
