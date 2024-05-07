@@ -3,7 +3,7 @@
 Este proyecto consiste en un sistema de monitoreo diseñado para el cuidado de adultos mayores. Utiliza la biblioteca Mediapipe de Python para extraer keypoints mediante estimación de pose a partir de videos del conjunto de datos NTU RGB + D. Estos keypoints se utilizan para predecir acciones humanas, lo que permite detectar situaciones de riesgo como caídas. En caso de una experiencia negativa, como una caída, el sistema envía una alerta a una página web donde el usuario o cuidador puede monitorear la situación.
 
 ![Visualizacion del proyecto](preview.gif)
-![Visualizacion del proyecto](GUI.gif)
+![Visualizacion del proyecto](img/learning.gif)
 ## Funcionalidades Principales
 
 - Extracción de keypoints de videos utilizando la biblioteca Mediapipe.
@@ -42,8 +42,9 @@ El proyecto está estructurado de la siguiente manera:
     ```
 
 4. Accede a la interfaz web desde tu navegador: [http://seniorsafe.ddns.net](http://seniorsafe.ddns.net)
+   ![Pagina](img/page.jpeg)
 
-5. Acceso a Google Colab
+6. Acceso a Google Colab
 
 Puedes acceder a una versión interactiva del proyecto en Google Colab haciendo clic en el siguiente enlace:
 
