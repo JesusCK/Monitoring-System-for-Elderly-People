@@ -14,11 +14,11 @@ import webbrowser
 
 class AppCamera:
     threshold = 0.5
-    actions = np.array(['Alerta de Caida',
+    actions = np.array(['Alerta de Caída',
                         'Normal',
                         'Normal',
-                        'Sentandose',
-                        'Levantandose',
+                        'Sentándose',
+                        'Levantándose',
                         'Sentado',
                         'Caminando'])
     REMOTE_HOST = '3.133.157.169'
