@@ -14,13 +14,13 @@ import webbrowser
 
 class AppCamera:
     threshold = 0.5
-    actions = np.array(['Alerta de Caida',
+    actions = np.array(['Alerta de Caída',
                         'Normal',
                         'Normal',
-                        'Sentandose',
-                        'Levantandose',
+                        'Sentándose',
+                        'Levantándose',
                         'Sentado',
-                        'Caminando'])
+                        'Caminándo'])
     REMOTE_HOST = '3.133.157.169'
 # Puerto en el que se ejecuta el servidor Flask
     REMOTE_PORT = 80
@@ -139,7 +139,7 @@ class AppCamera:
                         if action != self.prev_action and action != 'Normal':
                             self.prev_action = action
                             Thread(target=self.sendAction, args=(action,), daemon=True).start()
-                        if action == 'Alerta de Caida' and not alert_detected:
+                        if action == 'Alerta de Caída' and not alert_detected:
                             alert_detected = True
                             Thread(target=self.createGIF, daemon=True).start()
                             
