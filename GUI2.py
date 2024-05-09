@@ -20,7 +20,7 @@ class AppCamera:
                         'Sentándose',
                         'Levantándose',
                         'Sentado',
-                        'Caminándo'])
+                        'Caminando'])
     REMOTE_HOST = '3.133.157.169'
 # Puerto en el que se ejecuta el servidor Flask
     REMOTE_PORT = 80
