@@ -39,7 +39,7 @@ class AppCamera:
         self.q3 = Queue()
         self.q4 = Queue()
 
-
+        self.fps = 0
         self.pose = pm.mediapipe_pose()
         self.pt = self.pose.mp_holistic.Holistic()
         self.new_model = tf.keras.models.load_model('TrainedModel/ModeloBacano6.h5')
@@ -51,6 +51,7 @@ class AppCamera:
 
         self.canvas = customtkinter.CTkCanvas(window, width=800, height=600, bg="#242424", highlightthickness=0)
         self.canvas.pack(side="left")
+        
         self.ImBg = cv2.imread('Fondo (2).png')
         self.ImBg = cv2.resize(self.ImBg, (600, 600))
         self.Img = ImageTk.PhotoImage(image=Image.fromarray(cv2.cvtColor(self.ImBg, cv2.COLOR_BGR2RGB)))
@@ -70,7 +71,7 @@ class AppCamera:
         self.button = customtkinter.CTkButton(window, text="Start", command=self.camera)
         self.button.pack(pady=10)
 
-        self.button_draw = customtkinter.CTkButton(window, text="Drawing on", command=self.drawing)
+        self.button_draw = customtkinter.CTkButton(window, text="Drawing off", command=self.drawing)
         self.button_draw.pack(pady=10)
 
         self.button_visual = customtkinter.CTkButton(window, text="Visual on", command=self.VisualB)
@@ -78,6 +79,9 @@ class AppCamera:
 
         self.web_button = customtkinter.CTkButton(window, text="Go to Webpage", command=self.open_webpage)
         self.web_button.pack(pady=10)
+
+        self.notif = customtkinter.CTkLabel(window, text="Notificaciones: ")
+        self.notif.pack(pady=40)
         
         
         
@@ -86,7 +90,7 @@ class AppCamera:
         self.sentence = []
 
         self.GIF = []
-        self.draw = True
+        self.draw = False
         self.window.mainloop()
 
     def drawing(self):
@@ -114,6 +118,8 @@ class AppCamera:
             cap = cv2.VideoCapture(0) if ip_camera == "0" else cv2.VideoCapture(f"{ip_camera}")
             alert_detected = False
             consecutive = 0
+            pTime = 0
+            cTime = 0
             while cap.isOpened():
                 ret, frameVisual = cap.read()
                 frameVisual = cv2.resize(frameVisual,(800,600))
@@ -147,11 +153,16 @@ class AppCamera:
                         else:
                             self.prev_action = action
                             consecutive = 1
+                            self.notif.configure(text="Monitorizando...")
                         if len(self.sentence) == 0 or action != self.sentence[-1]:
                             self.sentence.append(action)
                         self.sentence = self.sentence[-1:]
                 text = ' '.join(self.sentence)
-                self.label.configure(text=text)
+                cTime = time.time()
+                self.fps = 1 / (cTime - pTime)
+                pTime = cTime
+                self.label.configure(text=text + f' FPS: {int(self.fps)}')
+                
                 if not self.Visual:
                     self.canvas.delete("all")
                     self.canvas.create_image(100, 0, image=self.Img, anchor="nw")
@@ -172,7 +183,7 @@ class AppCamera:
             self.GIF = self.GIF[-30:]
 
     def createGIF(self):
-        imageio.mimwrite('Caida2.gif', self.GIF, 'GIF', duration=1, fps=7) 
+        imageio.mimwrite('Caida2.gif', self.GIF, 'GIF', duration=1, fps=10) 
         print('GIF guardado')
         Thread(target=self.sendAlert, daemon=True).start()
         
@@ -182,6 +193,7 @@ class AppCamera:
                 response = requests.post(self.RECEIVE_GIF_URL, files={'file': open('Caida2.gif', 'rb')})
                 if response.status_code == 200:
                     print("Alerta enviada correctamente al servidor.")
+                    self.notif.configure(text="Alerta enviada \n correctamente al servidor.")
                 else:
                     print("Error al enviar la alerta al servidor. Código de estado:", response.status_code)
             except Exception as e:
