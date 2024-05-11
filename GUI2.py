@@ -113,6 +113,7 @@ class AppCamera:
             ip_camera =  self.tetxbox.get(index1=1.0, index2=customtkinter.END).strip()
             cap = cv2.VideoCapture(0) if ip_camera == "0" else cv2.VideoCapture(f"{ip_camera}")
             alert_detected = False
+            consecutive = 0
             while cap.isOpened():
                 ret, frameVisual = cap.read()
                 frameVisual = cv2.resize(frameVisual,(800,600))
@@ -136,16 +137,16 @@ class AppCamera:
                         self.GIF.append(frameV)
                         if len(self.GIF) >= 30:
                             self.GIF = self.GIF[-30:]
-                        if action != self.prev_action and action != 'Normal':
+                        if action == self.prev_action and action != 'Normal':
                             self.prev_action = action
-                            Thread(target=self.sendAction, args=(action,), daemon=True).start()
-                        if action == 'Alerta de Caída' and not alert_detected:
-                            alert_detected = True
-                            Thread(target=self.createGIF, daemon=True).start()
-                            
+                            consecutive += 1
+                            if consecutive == 5:
+                                Thread(target=self.sendAction, args=(action,), daemon=True).start()
+                                if action == 'Alerta de Caída':
+                                    Thread(target=self.createGIF, daemon=True).start()
                         else:
-                            alert_detected = False
-                            
+                            self.prev_action = action
+                            consecutive = 1
                         if len(self.sentence) == 0 or action != self.sentence[-1]:
                             self.sentence.append(action)
                         self.sentence = self.sentence[-1:]
