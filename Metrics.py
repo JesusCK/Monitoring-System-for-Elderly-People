@@ -8,6 +8,7 @@ import seaborn as sns
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import recall_score
 from sklearn.metrics import f1_score
+import pandas as pd
 
 
 class estimator:
@@ -25,10 +26,10 @@ class estimator:
   
 
 def loadData():
-    X = np.load('X_metrics.npy')
-    y = np.load('y_metrics.npy')
+    X = np.load('Keypoints/X5.npy')
+    y = np.load('Keypoints/y5.npy')
 
-    X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.9,random_state=41)
+    X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2,random_state=41)
     return X_test, y_test
 
 
@@ -37,7 +38,7 @@ def thereshold_vector(vector, threshold):
 
 
 def LoadModel():
-    model =  tf.keras.models.load_model('TrainedModel/ModeloTest.h5')
+    model =  tf.keras.models.load_model('TrainedModel/ModeloBacano6.h5')
     model.summary()
     return model
 
@@ -121,6 +122,9 @@ if __name__=="__main__":
     pred, test = TensorToVector(y_pred_binary, y_test)
     print(pred, test)
     metric = classification_report(test, pred, target_names=actions)
+    #df = pd.DataFrame(metric)
+    #df
+    #df.to_csv('metrics_ntu.csv', index=True)
     print(metric)
     classifier= estimator(model, actions)
     ConfusionMatrix(pred, test, actions)
