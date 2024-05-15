@@ -26,10 +26,10 @@ class estimator:
   
 
 def loadData():
-    X = np.load('Keypoints/X5.npy')
-    y = np.load('Keypoints/y5.npy')
+    X = np.load('X_metrics.npy')
+    y = np.load('y_metrics.npy')
 
-    X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2,random_state=41)
+    X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.5,random_state=41)
     return X_test, y_test
 
 
@@ -38,7 +38,7 @@ def thereshold_vector(vector, threshold):
 
 
 def LoadModel():
-    model =  tf.keras.models.load_model('TrainedModel/ModeloBacano6.h5')
+    model =  tf.keras.models.load_model('TrainedModel/ModelLSTM_PASL.h5')
     model.summary()
     return model
 
@@ -121,10 +121,10 @@ if __name__=="__main__":
     print(y_pred_binary, y_test)
     pred, test = TensorToVector(y_pred_binary, y_test)
     print(pred, test)
-    metric = classification_report(test, pred, target_names=actions)
-    #df = pd.DataFrame(metric)
-    #df
-    #df.to_csv('metrics_ntu.csv', index=True)
+    metric = classification_report(test, pred, target_names=actions, output_dict=True)
+    df = pd.DataFrame(metric)
+    df
+    df.to_csv('metrics_LSTM_PASL.csv', index=True)
     print(metric)
     classifier= estimator(model, actions)
     ConfusionMatrix(pred, test, actions)

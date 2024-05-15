@@ -29,6 +29,8 @@ class AppCamera:
 
     RECEIVE_GIF_URL = f"http://{REMOTE_HOST}:{REMOTE_PORT}/upload"
 
+    RECEIVE_URL_EMAIL = f"http://{REMOTE_HOST}:{REMOTE_PORT}/enviar_email"
+
     def __init__(self, window, window_title):
         self.window = window
         self.window.title(window_title)
@@ -207,6 +209,9 @@ class AppCamera:
         
             data = {'action': action, 'date': time.strftime("%Y-%m-%d %H:%M:%S",fecha_l)}
             response = requests.post(self.RECEIVE_URL, json=data)
+            response_email = requests.post(self.RECEIVE_URL_EMAIL, json=data)
+            if response_email.status_code == 200:
+                print("Acción predicha enviada correctamente al servidor Email.")
             if response.status_code == 200:
                 print("Acción predicha enviada correctamente al servidor.")
             else:
