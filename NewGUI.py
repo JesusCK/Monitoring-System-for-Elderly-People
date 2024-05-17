@@ -41,7 +41,7 @@ class AppCamera:
         self.fps = 0
         self.pose = pm.mediapipe_pose()
         self.pt = self.pose.mp_holistic.Holistic()
-        self.new_model = tf.keras.models.load_model('TrainedModel/ModeloTest.h5')
+        self.new_model = tf.keras.models.load_model('TrainedModel/ModeloBacano6.h5')
         self.prev_action = None
         self.Visual = False
         self.running = Event()
@@ -182,16 +182,22 @@ class AppCamera:
 
     def process_random_videos(self):
         dataset_path = "DATASET"  # Path to your dataset folder
+        count = 0
         while self.running.is_set():
-            for action_folder in os.listdir(dataset_path):
-                action_path = os.path.join(dataset_path, action_folder)
-                if os.path.isdir(action_path):
-                    videos = os.listdir(action_path)
-                    if videos:
-                        video_file = random.choice(videos)
-                        video_path = os.path.join(action_path, video_file)
-                        self.process_video(video_path)
-                        time.sleep(5)
+            if count % 10 == 0:
+                action_folder = "Alerta de Caida"
+            else:
+                action_folder = random.choice(["Caminando", "Levantandose", "Sentado", "Sentandose"])
+            action_path = os.path.join(dataset_path, action_folder)
+            if os.path.isdir(action_path):
+                videos = os.listdir(action_path)
+                if videos:
+                    video_file = random.choice(videos)
+                    video_path = os.path.join(action_path, video_file)
+                    self.process_video(video_path)
+                    self.GIF = []
+                    time.sleep(5)
+            count += 1
 
     def process_video(self, video_path):
         cap = cv2.VideoCapture(video_path)
@@ -202,9 +208,10 @@ class AppCamera:
             ret, frameVisual = cap.read()
             if not ret:
                 break
-            time.sleep(0.1)
+            #time.sleep(0.001)
             frameVisual = cv2.resize(frameVisual, (800, 600))
-            frame = cv2.resize(frameVisual, (int(frameVisual.shape[1] / 4), int(frameVisual.shape[0] / 4)))
+           # frame = cv2.resize(frameVisual, (int(frameVisual.shape[1] / 2), int(frameVisual.shape[0] / 4)))
+            frame = frameVisual
             try:
                 frame, results = self.pose.mediapipe_detection(frame, self.pt)
             except:
@@ -225,7 +232,7 @@ class AppCamera:
                     if action == self.prev_action and action != 'Normal':
                         self.prev_action = action
                         consecutive += 1
-                        if consecutive == 9:
+                        if consecutive == 10:
                             Thread(target=self.sendAction, args=(action,), daemon=True).start()
                             if action == 'Alerta de Caída':
                                 Thread(target=self.createGIF, daemon=True).start()
