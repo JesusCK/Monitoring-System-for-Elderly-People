@@ -9,6 +9,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.metrics import recall_score
 from sklearn.metrics import f1_score
 import pandas as pd
+from sklearn.metrics import ConfusionMatrixDisplay
 
 
 class estimator:
@@ -29,7 +30,7 @@ def loadData():
     X = np.load('X_metrics.npy')
     y = np.load('y_metrics.npy')
 
-    X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.5,random_state=41)
+    X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2,random_state=40)
     return X_test, y_test
 
 
@@ -38,7 +39,7 @@ def thereshold_vector(vector, threshold):
 
 
 def LoadModel():
-    model =  tf.keras.models.load_model('TrainedModel/ModelLSTM_PASL.h5')
+    model =  tf.keras.models.load_model('TrainedModel\ModeloTest2.h5')
     model.summary()
     return model
 
@@ -58,20 +59,31 @@ def ConfusionMatrix(pred, test, actions):
 
     # Calcular la matriz de confusión
     conf_matrix = confusion_matrix(pred, test)
+    print(conf_matrix)
 
     # Etiquetas de las clases
 
 
     # Crear la figura y el eje
-    plt.figure(figsize=(10, 8))
-    sns.set(font_scale=0.8)  # Ajustar el tamaño de la fuente
-    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=actions, yticklabels=actions)
-
+    disp = ConfusionMatrixDisplay(conf_matrix, display_labels=np.arange(1, len(actions)+1))
+    
+    # Graficar la matriz de confusión
+    fig, ax = plt.subplots(figsize=(13, 10))
+    disp.plot(ax=ax)
+    plt.title('Matriz de Confusión')
+    plt.xticks(fontsize=15)  # Increase font size of x-axis labels
+    plt.yticks(fontsize=15)  # Increase font size of y-axis labels
+    
     # Añadir etiquetas y título
     plt.xlabel('Predicción')
     plt.ylabel('Etiqueta Verdadera')
     plt.title('Matriz de Confusión')
-
+    
+    
+    # Crear leyenda
+    legend_labels = ['Alerta de Caída', 'Sentándose', 'Levantándose', 'Sentado', 'Caminando']
+    plt.legend(legend_labels, loc='upper right')
+    plt.savefig('ConfusionMatrix.pdf')
     # Mostrar la matriz de confusión
     plt.show()
 def metrics_plot(test, pred, actions):
@@ -106,9 +118,9 @@ def metrics_plot(test, pred, actions):
     plt.show()
 
 if __name__=="__main__":
-    actions = np.array(['Alerta de Caida',
-                        'Sentandose',
-                        'Levantandose',
+    actions = np.array(['Alerta de Caída',
+                        'Sentándose',
+                        'Levantándose',
                         'Sentado',
                         'Caminando'])
     X_test, y_test = loadData()
@@ -121,11 +133,11 @@ if __name__=="__main__":
     print(y_pred_binary, y_test)
     pred, test = TensorToVector(y_pred_binary, y_test)
     print(pred, test)
-    metric = classification_report(test, pred, target_names=actions, output_dict=True)
-    df = pd.DataFrame(metric)
-    df
-    df.to_csv('metrics_LSTM_PASL.csv', index=True)
-    print(metric)
+    # metric = classification_report(test, pred, target_names=actions, output_dict=True)
+    # df = pd.DataFrame(metric)
+    # df
+    # df.to_csv('metrics90T.csv', index=True)
+    
     classifier= estimator(model, actions)
     ConfusionMatrix(pred, test, actions)
     metrics_plot(test, pred, actions)

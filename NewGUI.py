@@ -184,7 +184,7 @@ class AppCamera:
         dataset_path = "DATASET"  # Path to your dataset folder
         count = 0
         while self.running.is_set():
-            if count % 10 == 0:
+            if count % 4 == 0:
                 action_folder = "Alerta de Caida"
             else:
                 action_folder = random.choice(["Caminando", "Levantandose", "Sentado", "Sentandose"])
@@ -196,7 +196,7 @@ class AppCamera:
                     video_path = os.path.join(action_path, video_file)
                     self.process_video(video_path)
                     self.GIF = []
-                    time.sleep(5)
+                    time.sleep(2)
             count += 1
 
     def process_video(self, video_path):
@@ -210,8 +210,8 @@ class AppCamera:
                 break
             #time.sleep(0.001)
             frameVisual = cv2.resize(frameVisual, (800, 600))
-           # frame = cv2.resize(frameVisual, (int(frameVisual.shape[1] / 2), int(frameVisual.shape[0] / 4)))
-            frame = frameVisual
+            frame = cv2.resize(frameVisual, (int(frameVisual.shape[1] / 4), int(frameVisual.shape[0] / 4)))
+            # frame = frameVisual
             try:
                 frame, results = self.pose.mediapipe_detection(frame, self.pt)
             except:

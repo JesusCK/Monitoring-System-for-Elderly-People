@@ -3,6 +3,7 @@ DATA/
 DATA2/
 DATASET/
 __pycache__/
+DATASET-T/
 
 
 # Ignorar un archivo específico
