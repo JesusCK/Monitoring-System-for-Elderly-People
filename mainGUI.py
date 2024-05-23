@@ -28,6 +28,7 @@ class AppCamera:
     RECEIVE_URL = f"http://{REMOTE_HOST}:{REMOTE_PORT}/receive_data"
     RECEIVE_GIF_URL = f"http://{REMOTE_HOST}:{REMOTE_PORT}/upload"
     RECEIVE_URL_EMAIL = f"http://{REMOTE_HOST}:{REMOTE_PORT}/enviar_email"
+    
 
     def __init__(self, window, window_title):
         self.window = window
