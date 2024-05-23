@@ -115,7 +115,7 @@ def metrics_plot(test, pred, actions):
 
     # Create legend & Show graphic
     plt.legend()
-    plt.savefig('Metrics_model.pdf')
+    plt.savefig('Metrics_model_uninorte.pdf')
     plt.show()
 
 if __name__=="__main__":
